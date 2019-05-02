@@ -1,47 +1,24 @@
-import React, {Component} from 'react'
-import {View, Text, StyleSheet, StatusBar} from 'react-native'
-import Button from '../Button'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import {actionCreators as tomatoActions} from '../../reducer'
+import Timer from './presenter'
 
-export default class Timer extends Component
-{
-    render()
-    {
-        return (
-            <View style={styles.container}>
-                <StatusBar barStyle={"light-content"}/>
-                <View style={styles.upper}>
-                    <Text style={styles.time}>25:00</Text>
-                </View>
-                <View style={styles.lower}>
-                    <Button iconName="play-circle" onPress={() => alert("It Works !")}/>
-                    <Button iconName="stop-circle" onPress={() => alert("It Works !")}/>
-                </View>
-            </View>
-        )
+function mapStateToProp(state){
+    const {isPlaying, elapsedTime, timerDuration} = state
+    return {
+        isPlaying,
+        elapsedTime,
+        timerDuration
     }
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#999",
-    },
+function mapDispatchToProps(dispatch) {
+    return {
+        startTimer: bindActionCreators(tomatoActions.startTimer, dispatch),
+        restartTimer: bindActionCreators(tomatoActions.restartTimer, dispatch),
+        addSecond: bindActionCreators(tomatoActions.addSecond, dispatch),
+        initTimer: bindActionCreators(tomatoActions.initTimer, dispatch)
+    }
+}
 
-    upper: {
-        flex: 2,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-
-    lower: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-
-    time:{
-        color: "white",
-        fontSize: 120,
-        fontWeight: "100"
-    },
-})
+export default connect(mapStateToProp, mapDispatchToProps)(Timer)

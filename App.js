@@ -1,12 +1,20 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Timer from './components/Timer'
+import React from 'react'
+import Timer from './components/Timer/index'
+import reducer from './reducer'
+import {createStore} from "redux"
+import {Provider} from 'react-redux'
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <Timer/>
-    );
-  }
+let store = createStore(reducer)
+
+export default class App extends React.Component
+{
+    render()
+    {
+        return (
+            <Provider store={store}>
+                <Timer/>
+            </Provider>
+        )
+    }
 }
 
